@@ -76,19 +76,35 @@ const getRandomNumber = () => {
   return Math.floor(Math.random() * 10);
 };
 
-const catPassedArea = (carName) => {
-  console.log(carName);
-  console.log();
+const catPassedArea = (carNames, tryCount) => {
   const CAR_MOVE_COUNT = 5;
 
   console.log("실행 결과");
 
-  for (let i = 0; i < CAR_MOVE_COUNT; i++) {
-    console.log(`${carName} : ${"-".repeat(i + 1)}`);
+  const carPath = {};
+
+  for (let i = 0; i < tryCount; i++) {
+    for (const carName of carNames) {
+      if (!carPath[carName]) {
+        carPath[carName] = "";
+      }
+      if (getRandomNumber() >= 4) {
+        carPath[carName] = carPath[carName] + "-";
+      }
+    }
+
+    for (const key in carPath) {
+      console.log(`${key} : ${carPath[key]}`);
+    }
     console.log();
   }
+
+  const maxLength = Math.max(
+    Object.values(carPath).map((value) => value.length)
+  );
+
   console.log();
-  console.log("경주를 완료했습니다.");
+  console.log(`${Object.entries(carPath)}가 최종 우승했습니다.`);
 };
 
 // 게임 시작
@@ -98,7 +114,7 @@ const play = async () => {
   );
   const tryCount = await readLineCountAsync("시도할 회수는 몇회인가요? > ");
 
-  console.log(carNames, tryCount);
+  catPassedArea(carNames, tryCount);
 };
 
 play();

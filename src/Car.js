@@ -21,7 +21,7 @@ const checkCarName = (carName) => {
 };
 
 // 사용자 입력 비동기 처리 함수
-function readLineAsync(query) {
+function readLineCarNamesAsync(query) {
   return new Promise((resolve, reject) => {
     if (arguments.length !== 1) {
       reject(new Error("arguments must be 1"));
@@ -48,6 +48,29 @@ function readLineAsync(query) {
   });
 }
 
+// 사용자 입력 비동기 처리 함수
+function readLineCountAsync(query) {
+  return new Promise((resolve, reject) => {
+    if (arguments.length !== 1) {
+      reject(new Error("arguments must be 1"));
+    }
+
+    if (typeof query !== "string") {
+      reject(new Error("query must be string"));
+    }
+
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+
+    rl.question(query, (input) => {
+      rl.close();
+      resolve(input);
+    });
+  });
+}
+
 const catPassedArea = (carName) => {
   console.log(carName);
   console.log();
@@ -65,11 +88,12 @@ const catPassedArea = (carName) => {
 
 // 게임 시작
 const play = async () => {
-  const carNames = await readLineAsync("경주할 자동차 이름을 입력하세요. > ");
+  const carNames = await readLineCarNamesAsync(
+    "경주할 자동차 이름을 입력하세요. > "
+  );
+  const tryCount = await readLineCountAsync("시도할 회수는 몇회인가요? > ");
 
-  for (let carName of carNames) {
-    catPassedArea(carName);
-  }
+  console.log(carNames, tryCount);
 };
 
 play();

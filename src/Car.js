@@ -71,6 +71,11 @@ function readLineCountAsync(query) {
   });
 }
 
+// 랜덤으로 숫자 뽑는 함수
+const getRandomNumber = () => {
+  return Math.floor(Math.random() * 10);
+};
+
 const catPassedArea = (carName) => {
   console.log(carName);
   console.log();
